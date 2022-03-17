@@ -1,0 +1,10 @@
+name: Revy
+on: [pull_request]
+
+jobs:
+  cautious-broccoli:
+    name: Cautious Broccoli
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running cautious broccoli
+        uses: explore-dev/cautious-broccoli@experimental

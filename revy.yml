@@ -1,0 +1,27 @@
+apiVersion: reviewpad.com/v1alpha
+
+groups:
+  maintainers:
+    kind: developers
+    spec: '["marcelosousa", "ferreiratiago"]'
+
+rules:
+  changesRevyFile:
+    kind: patch
+    description: Changes revy.yml
+    spec: $hasFileName("revy.yml")
+
+  changesGitHubFiles:
+    kind: patch
+    description: Changes a file under .github
+    spec: $hasFilePattern(".github/**")
+
+protectionGates:
+  ask:
+    description: Ask mode
+    patchRules:
+      - rule: changesRevyFile
+      - rule: changesGitHubFiles
+    actions:
+      - $addLabel("critical")
+      - $assignReviewer($group("maintainers"))
