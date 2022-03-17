@@ -16,6 +16,11 @@ rules:
     description: Changes a file under .github
     spec: $hasFilePattern(".github/**")
 
+  changesReadmeFile:
+    kind: patch
+    description: Maintainers can freely change the README
+    spec: $hasFileName("README.md") && $isMemberOf($name(), $group("maintainers"))
+
 protectionGates:
   ask:
     description: Ask mode
@@ -25,3 +30,11 @@ protectionGates:
     actions:
       - $addLabel("critical")
       - $assignReviewer($group("maintainers"))
+
+  ship:
+    description: Ship mode
+    patchRules:
+      - rule: changesReadmeFile
+    actions:
+      - $addLabel("ship")
+      - $merge("rebase")
