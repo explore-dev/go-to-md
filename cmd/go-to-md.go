@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"os"
@@ -16,7 +17,7 @@ import (
 
 var (
 	// source file to process
-	sourceFile = flag.String("file", "", "souce file to process")
+	sourceFile = flag.String("file", "", "source filepath")
 
 	// comment prefix
 	prefix = flag.String("prefix", "", "prefix to identify comment annotations")
@@ -31,6 +32,17 @@ func usage() {
 	os.Exit(2)
 }
 
+func commentsToString(filePath string, comments []string) string {
+	var buf bytes.Buffer
+	fileName := strings.TrimSuffix(filepath.Base(filePath), filepath.Ext(filePath))
+
+	sep := "\n"
+	buf.WriteString(fmt.Sprintf("# %s", fileName))
+	buf.WriteString(sep)
+	buf.WriteString(strings.Join(comments, sep))
+	return buf.String()
+}
+
 func main() {
 	flag.Parse()
 
@@ -43,9 +55,5 @@ func main() {
 		usage()
 	}
 
-	name := strings.TrimSuffix(filepath.Base(*sourceFile), filepath.Ext(*sourceFile))
-	fmt.Printf("# %s\n", name)
-	for _, comment := range gotomd.Collect(*sourceFile, *prefix, *annotation) {
-		fmt.Println(comment)
-	}
+	fmt.Println(commentsToString(*sourceFile, gotomd.Collect(*sourceFile, *prefix, *annotation)))
 }
