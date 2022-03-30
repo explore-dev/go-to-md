@@ -1,4 +1,4 @@
-apiVersion: reviewpad.com/v1alpha
+apiVersion: reviewpad.com/v0.0.1
 
 groups:
   maintainers:

@@ -2,9 +2,8 @@ name: Revy
 on: [pull_request]
 
 jobs:
-  cautious-broccoli:
-    name: Cautious Broccoli
+  revy:
     runs-on: ubuntu-latest
     steps:
-      - name: Running cautious broccoli
-        uses: explore-dev/cautious-broccoli@experimental
+      - name: Running reviewpad action
+        uses: reviewpad/action@v0.0.1
